@@ -34,3 +34,7 @@ require __DIR__.'/auth.php';
 Route::get('/articles/create', function () {
     return view('articles/create');
 });
+
+Route::post('/articles', function () {
+    return 'hello';
+});
