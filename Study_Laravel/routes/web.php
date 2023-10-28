@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -35,21 +36,16 @@ Route::get('/articles/create', function () {
     return view('articles/create');
 });
 
-Route::post('/articles', function () {
-    // 글이 비버있지 않고, 문자열이고, 255자를 넘으면 안된다.
-    $body = $_POST['body'];
-
-    // 비어있으면 이전으로 돌아가기
-    if(!$body) {
-        return redirect()->back(); 
-    }
-
-    if(!is_string($body)) {
-        return redirect()->back(); 
-    }
-
-    if(strlen($body) > 255) {
-        return redirect()->back(); 
-    }
+// 유효성 검사 : 글이 비버있지 않고, 문자열이고, 255자를 넘으면 안된다.
+Route::post('/articles', function (Request $request) {
+    //1. 리퀘스트 방법 이용 import해주기
+    $request->validate([
+        'body'=> [
+            'required',
+            'string',
+            'max:255'
+        ],            
+    ]);
+    
     return 'hello';
 });
