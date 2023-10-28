@@ -36,5 +36,20 @@ Route::get('/articles/create', function () {
 });
 
 Route::post('/articles', function () {
+    // 글이 비버있지 않고, 문자열이고, 255자를 넘으면 안된다.
+    $body = $_POST['body'];
+
+    // 비어있으면 이전으로 돌아가기
+    if(!$body) {
+        return redirect()->back(); 
+    }
+
+    if(!is_string($body)) {
+        return redirect()->back(); 
+    }
+
+    if(strlen($body) > 255) {
+        return redirect()->back(); 
+    }
     return 'hello';
 });
